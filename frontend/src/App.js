@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import ProjectStructureDropdown from "./components/directory";
 import GLTFViewer from "./components/GLTFViewer";
 import AIButton from "./components/AIButton";
+import Loader from "./components/Loader";
 
 function App() {
   const [prompt, setPrompt] = useState("");
@@ -9,6 +10,7 @@ function App() {
   const [files, setFiles] = useState([]);
   const [projectStructure, setProjectStructure] = useState([]);
   const [modelUrl, setModelUrl] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,6 +18,7 @@ function App() {
     setFiles([]);
     setProjectStructure([]);
     setModelUrl("");
+    setIsLoading(true);
 
     try {
       const response = await fetch("http://localhost:5000/generate-cad", {
@@ -55,6 +58,8 @@ function App() {
     } catch (error) {
       console.error("Error fetching API:", error);
       setStatus("Failed to generate CAD model.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -64,7 +69,7 @@ function App() {
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
           AI-Powered CAD Generator
         </h1>
-        
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-600">
@@ -78,12 +83,15 @@ function App() {
               className="w-full mt-1 px-4 py-2 border rounded-md text-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none"
             />
           </div>
-          <AIButton
-            type="submit"
-            className="w-full bg-blue-500 text-white py-2 px-5 transition"
-          >
-            Submit
-          </AIButton>
+          <div className="flex items-center space-x-6">
+            <AIButton
+              type="submit"
+              className="bg-blue-500 text-white py-2 px-5 transition"
+            >
+              Submit
+            </AIButton>
+            <Loader isVisible={isLoading} />
+          </div>
         </form>
         {status && (
           <div className="mt-6 text-center">
