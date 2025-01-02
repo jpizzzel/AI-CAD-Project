@@ -49,33 +49,36 @@ const GLTFViewer = ({ modelUrl }) => {
       modelUrl,
       (gltf) => {
         const model = gltf.scene;
-
-        // Center and scale the model
+    
+        // Calculate the bounding box of the model
         const box = new THREE.Box3().setFromObject(model);
-        const center = box.getCenter(new THREE.Vector3());
         const size = box.getSize(new THREE.Vector3());
-        model.position.sub(center); // Center the model
-        model.scale.set(0.1, 0.1, 0.1); // Scale down for better visibility
+        const center = box.getCenter(new THREE.Vector3());
+    
+        // Center the model
+        model.position.sub(center);
         scene.add(model);
-
-        // Adjust camera to fit the model
+    
+        // Calculate the max dimension of the model
         const maxDimension = Math.max(size.x, size.y, size.z);
-        const fitOffset = 1.5;
+    
+        // Set the initial camera distance
+        const fitOffset = 2; // Increase this value to zoom out more
         const distance = fitOffset * maxDimension / Math.tan((Math.PI / 180) * camera.fov / 2);
-        camera.position.set(center.x, center.y, distance);
-        camera.lookAt(center);
-
-        console.log("Model loaded and centered successfully:", {
-          center,
-          size,
-          cameraPosition: camera.position,
-        });
+    
+        // Adjust the camera position dynamically
+        camera.position.set(distance, distance, distance); // Position the camera at an angle
+        camera.lookAt(0, 0, 0); // Focus the camera on the center of the model
+    
+        console.log("Model loaded and camera adjusted:", model);
       },
       undefined,
       (error) => {
         console.error("Error loading GLTF model:", error);
       }
     );
+    
+
 
     // Animation loop
     const animate = () => {
