@@ -10,7 +10,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     width: 100%;
-    height: 100%;
+    min-height: 100%;
     font-family: 'Arial', sans-serif;
     --color: rgba(114, 114, 114, 0.3);
     background-color: #191a1a;
@@ -40,12 +40,14 @@ const GlobalStyle = createGlobalStyle`
       );
     background-size: 55px 55px;
     color: white;
-    overflow: hidden;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    overflow-y: auto; /* Enable vertical scrolling */
   }
 
   #root {
-    height: 100%;
-    width: 100%;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
   }
 `;
 

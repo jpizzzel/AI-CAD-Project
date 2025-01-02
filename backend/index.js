@@ -38,8 +38,11 @@ app.post("/generate-cad", (req, res) => {
         if (result.status === "completed") {
           // Dynamically construct file paths
           const files = Object.fromEntries(
-            Object.entries(result.files).map(([name, filePath]) => [name, `/output/${path.basename(filePath)}`])
-          );
+            Object.entries(result.files).map(([name, filePath]) => [
+              name,
+              `/output/${path.basename(filePath.replace(/\\/g, "/"))}`,
+            ])
+          );          
   
           // Find the GLTF file dynamically
           const modelUrlKey = Object.keys(files).find((key) => key.endsWith(".gltf"));
