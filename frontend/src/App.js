@@ -77,7 +77,7 @@ function App() {
     <>
       <Pattern /> {/* Global background pattern */}
       <div className="min-h-screen flex flex-col items-center justify-center py-10 space-y-8">
-        <div className="bg-[#222630] rounded-lg shadow-lg p-8 w-full max-w-md">
+        <div className="border-2 border-grey-500 bg-[#222630] rounded-lg shadow-lg p-8 w-full max-w-md">
           <h1 className="text-3xl font-bold text-gray-100 mb-6 text-center">
             AI-Powered CAD Generator
           </h1>

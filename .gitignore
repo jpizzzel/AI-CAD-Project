@@ -40,6 +40,7 @@ Desktop.ini
 /.cache
 /__pycache__/
 *.pyc
+/testing
 
 # Git-related
 .git

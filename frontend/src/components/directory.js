@@ -36,7 +36,7 @@ const ProjectStructureTooltip = ({ structure }) => {
 
   return (
     <div className="relative group inline-block">
-      <div className="bg-[#222630] py-2 px-4 rounded-md shadow-lg flex justify-center items-center gap-4 cursor-pointer">
+      <div className="border-2 border-grey-500 bg-[#222630] py-2 px-4 rounded-md shadow-lg flex justify-center items-center gap-4 cursor-pointer">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
