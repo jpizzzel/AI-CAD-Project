@@ -74,6 +74,17 @@ app.listen(PORT, () => {
   console.log(`HTTP server is running on http://localhost:${PORT}`);
 });
 
+// Add this new endpoint
+app.post("/ai-assistant", async (req, res) => {
+  const { message } = req.body;
+  
+  // TODO: Implement your AI logic here
+  // For now, return a simple response
+  const response = "I'm a simple AI assistant. I can help you understand your CAD models better. This is a placeholder response - implement your preferred AI service here.";
+  
+  res.json({ response });
+});
+
 // // WebSocket Server
 // const wss = new WebSocket.Server({ port: WS_PORT });
 
