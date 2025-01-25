@@ -85,12 +85,12 @@ const ProjectStructureTooltip = ({ structure }) => {
                 d="M16.2 2H1.8C0.81 2 0 2.77143 0 3.71429V12.2857C0 13.2286 0.81 14 1.8 14H16.2C17.19 14 18 13.2286 18 12.2857V3.71429C18 2.77143 17.19 2 16.2 2Z"
               />
             </svg>
-            <p>Project Files</p>
+            <p>File Downloads</p>
           </div>
           <div className="flex gap-2">
             <button
               onClick={() => setSelectedFormat('gltf')}
-              className={`px-3 py-1 rounded ${
+              className={`px-1 py-1 rounded ${
                 selectedFormat === 'gltf' 
                   ? 'bg-blue-600 text-white' 
                   : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
@@ -100,7 +100,7 @@ const ProjectStructureTooltip = ({ structure }) => {
             </button>
             <button
               onClick={() => setSelectedFormat('step')}
-              className={`px-3 py-1 rounded ${
+              className={`px-1 py-1 rounded ${
                 selectedFormat === 'step' 
                   ? 'bg-blue-600 text-white' 
                   : 'bg-gray-700 text-gray-300 hover:bg-gray-600'

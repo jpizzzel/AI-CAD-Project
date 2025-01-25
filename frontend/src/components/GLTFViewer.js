@@ -18,12 +18,12 @@ const GLTFViewer = ({ modelUrl }) => {
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0xf0f0f0);
 
-    // Camera setup with adjusted near clipping plane
+    // Camera setup
     const camera = new THREE.PerspectiveCamera(
       75, 
       mountRef.current.clientWidth / mountRef.current.clientHeight, 
-      0.01, // Near clipping plane
-      1000 // Far clipping plane
+      0.1,
+      1000
     );
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -31,11 +31,17 @@ const GLTFViewer = ({ modelUrl }) => {
     renderer.setPixelRatio(window.devicePixelRatio);
 
     if (mountRef.current) {
+      while (mountRef.current.firstChild) {
+        mountRef.current.removeChild(mountRef.current.firstChild);
+      }
       mountRef.current.appendChild(renderer.domElement);
     }
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.minDistance = 0.1;  // Allow closer zoom
+    controls.maxDistance = 100;
 
     // Lighting setup
     const ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
@@ -48,6 +54,13 @@ const GLTFViewer = ({ modelUrl }) => {
     loader.load(
       modelUrl,
       (gltf) => {
+        // Remove any existing models
+        scene.children.forEach((child) => {
+          if (child.type === 'Group') {
+            scene.remove(child);
+          }
+        });
+
         const model = gltf.scene;
     
         // Calculate the bounding box of the model
@@ -57,18 +70,32 @@ const GLTFViewer = ({ modelUrl }) => {
     
         // Center the model
         model.position.sub(center);
+
+        // Scale very small models up to a reasonable size
+        const maxDimension = Math.max(size.x, size.y, size.z);
+        if (maxDimension < 0.1) {
+            const scale = 1 / maxDimension;
+            model.scale.set(scale, scale, scale);
+        }
+        
         scene.add(model);
     
-        // Calculate the max dimension of the model
-        const maxDimension = Math.max(size.x, size.y, size.z);
+        // Recalculate bounding box after potential scaling
+        const newBox = new THREE.Box3().setFromObject(model);
+        const newSize = newBox.getSize(new THREE.Vector3());
+        const newMaxDimension = Math.max(newSize.x, newSize.y, newSize.z);
     
         // Set the initial camera distance
-        const fitOffset = 2; // Increase this value to zoom out more
-        const distance = fitOffset * maxDimension / Math.tan((Math.PI / 180) * camera.fov / 2);
+        const fitOffset = 1.5;  // Increased for better default view
+        const distance = fitOffset * newMaxDimension / Math.tan((Math.PI / 180) * camera.fov / 2);
     
         // Adjust the camera position dynamically
-        camera.position.set(distance, distance, distance); // Position the camera at an angle
-        camera.lookAt(0, 0, 0); // Focus the camera on the center of the model
+        camera.position.set(distance, distance, distance);
+        camera.lookAt(0, 0, 0);
+        
+        // Reset controls target and update
+        controls.target.set(0, 0, 0);
+        controls.update();
     
         console.log("Model loaded and camera adjusted:", model);
       },
@@ -77,8 +104,6 @@ const GLTFViewer = ({ modelUrl }) => {
         console.error("Error loading GLTF model:", error);
       }
     );
-    
-
 
     // Animation loop
     const animate = () => {

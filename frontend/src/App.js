@@ -6,6 +6,7 @@ import Loader from "./components/Loader";
 import Pattern from "./components/Pattern";
 import AIAssistant from './components/AIAssistant';
 import ProjectStructureTooltip from "./components/directory";
+import FileSelector from './components/FileSelector';
 
 function App() {
   const [prompt, setPrompt] = useState("");
@@ -14,6 +15,12 @@ function App() {
   const [projectStructure, setProjectStructure] = useState([]);
   const [modelUrl, setModelUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isFileSelectorOpen, setIsFileSelectorOpen] = useState(true);
+  const [isDirectoryOpen, setIsDirectoryOpen] = useState(true);
+
+  const handleFileSelect = (filePath) => {
+    setModelUrl(`http://localhost:5000${filePath}`);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -46,31 +53,29 @@ function App() {
           };
         });
   
-        // Create new structure with the latest files at the top
+        // Create new structure
         const newStructure = [
           {
-            name: prompt.substring(0, 30) + "...", // Use prompt as folder name
+            name: prompt,
             type: "folder",
             children: mappedFiles,
-            timestamp: Date.now() // Add timestamp for sorting
+            timestamp: Date.now()
           },
-          ...projectStructure // Add previous structures
+          ...projectStructure
         ];
   
-        // Update state
-        setFiles(mappedFiles); // Only store the latest files
+        setFiles(mappedFiles);
         setProjectStructure(newStructure);
   
-        // Always set the latest GLTF file as the model URL
-        const latestGltfFile = mappedFiles.find(file => 
+        // Set the latest GLTF file as the model URL
+        const gltfFile = mappedFiles.find(file => 
           file.name.toLowerCase().endsWith('.gltf') || 
           file.name.toLowerCase().endsWith('.glb')
         );
         
-        if (latestGltfFile) {
-          setModelUrl(`http://localhost:5000${latestGltfFile.name}`);
-        } else if (data.modelUrl) {
-          setModelUrl(`http://localhost:5000${data.modelUrl}`);
+        if (gltfFile) {
+          const filePath = gltfFile.name.replace("./output", "/output");
+          setModelUrl(`http://localhost:5000${filePath}`);
         }
       } else {
         setStatus(`Error: ${data.message}`);
@@ -122,15 +127,42 @@ function App() {
           )}
         </div>
 
-        {projectStructure.length > 0 && (
-          <ProjectStructureTooltip structure={projectStructure} />
-        )}
+        <div className="flex gap-4">
+          <button
+            onClick={() => setIsFileSelectorOpen(!isFileSelectorOpen)}
+            className="px-4 py-2 bg-[#222630] text-white rounded-lg hover:bg-[#2a2f3a] transition-colors"
+          >
+            {isFileSelectorOpen ? 'Hide File List' : 'Show File List'}
+          </button>
+          <button
+            onClick={() => setIsDirectoryOpen(!isDirectoryOpen)}
+            className="px-4 py-2 bg-[#222630] text-white rounded-lg hover:bg-[#2a2f3a] transition-colors"
+          >
+            {isDirectoryOpen ? 'Hide Directory' : 'Show Directory'}
+          </button>
+        </div>
 
-        {modelUrl && (
-          <div className="w-full max-w-6xl rounded-lg shadow-lg p-4">
-            <GLTFViewer modelUrl={modelUrl} />
-          </div>
-        )}
+        <div className={`w-full max-w-6xl flex gap-4 ${(!isFileSelectorOpen && !isDirectoryOpen) ? 'justify-center' : ''}`}>
+          {(isFileSelectorOpen || isDirectoryOpen) && (
+            <div className="flex flex-col gap-4 w-64">
+              {isFileSelectorOpen && projectStructure.length > 0 && (
+                <FileSelector 
+                  projectStructure={projectStructure}
+                  onSelectFile={handleFileSelect}
+                />
+              )}
+              {isDirectoryOpen && projectStructure.length > 0 && (
+                <ProjectStructureTooltip structure={projectStructure} />
+              )}
+            </div>
+          )}
+
+          {modelUrl && (
+            <div className={`rounded-lg shadow-lg p-4 ${(!isFileSelectorOpen && !isDirectoryOpen) ? 'flex-initial w-full max-w-4xl' : 'flex-1'}`}>
+              <GLTFViewer modelUrl={modelUrl} />
+            </div>
+          )}
+        </div>
 
         <AIAssistant />
       </div>

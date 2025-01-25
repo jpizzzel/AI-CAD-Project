@@ -80,7 +80,7 @@ app.post("/ai-assistant", async (req, res) => {
   
   // TODO: Implement your AI logic here
   // For now, return a simple response
-  const response = "I'm a simple AI assistant. I can help you understand your CAD models better. This is a placeholder response - implement your preferred AI service here.";
+  const response = "Hello, I'm a simple AI assistant. I am currently being trained to help you better understand your generated CAD models. This is a placeholder response until I'm trained.";
   
   res.json({ response });
 });
