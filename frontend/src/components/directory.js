@@ -9,25 +9,31 @@ const ProjectStructureTooltip = ({ structure }) => {
     );
   }
 
+  const getDisplayName = (item) => {
+    const filename = item.name.split('/').pop();
+    return filename.replace('source.', 'filename.');
+  };
+
   const renderStructure = (items, depth = 0) => {
     return items.map((item, index) => (
-      <li key={`${depth}-${index}`} className={`py-1 pl-${depth * 4}`}>
+      <li key={`${depth}-${index}`} className="py-1">
         {item.type === "folder" ? (
           <>
-            📁 {item.name}
             {item.children && (
-              <ul className="pl-4">
+              <ul className="space-y-1">
                 {renderStructure(item.children, depth + 1)}
               </ul>
             )}
           </>
         ) : (
           <a
-            href={`http://localhost:5000${item.name.replace("./output", "/output")}`} // Use full path
-            download={item.displayName} // Download with original display name
-            className="text-blue-500 hover:underline"
+            href={`http://localhost:5000${item.name.replace("./output", "/output")}`}
+            download={getDisplayName(item)}
+            className="text-blue-500 hover:underline flex items-center gap-2 px-2 py-1 rounded hover:bg-[#2a2f3a] transition-colors"
+            title={getDisplayName(item)}
           >
-            📄 {item.displayName}
+            <span className="flex-shrink-0">📄</span>
+            <span className="truncate">{getDisplayName(item)}</span>
           </a>
         )}
       </li>
@@ -55,8 +61,8 @@ const ProjectStructureTooltip = ({ structure }) => {
         </svg>
         <p>Project Structure</p>
       </div>
-      <div className="absolute left-0 mt-2 w-64 bg-[#222630] border border-gray-200 rounded-md shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-        <ul className="p-4 space-y-1">{renderStructure(structure)}</ul>
+      <div className="absolute left-0 mt-2 w-56 bg-[#222630] border border-gray-200 rounded-md shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <ul className="p-2 space-y-1">{renderStructure(structure)}</ul>
       </div>
     </div>
   );
