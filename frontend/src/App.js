@@ -19,7 +19,7 @@ function App() {
   const [isDirectoryOpen, setIsDirectoryOpen] = useState(true);
 
   const handleFileSelect = (filePath) => {
-    setModelUrl(`http://localhost:5000${filePath}`);
+    setModelUrl(`http://localhost:3001${filePath}`);
   };
 
   const handleSubmit = async (e) => {
@@ -28,7 +28,7 @@ function App() {
     setIsLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5000/generate-cad", {
+      const response = await fetch("http://localhost:3001/generate-cad", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt }),
@@ -75,7 +75,7 @@ function App() {
         
         if (gltfFile) {
           const filePath = gltfFile.name.replace("./output", "/output");
-          setModelUrl(`http://localhost:5000${filePath}`);
+          setModelUrl(`http://localhost:3001${filePath}`);
         }
       } else {
         setStatus(`Error: ${data.message}`);

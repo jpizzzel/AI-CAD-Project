@@ -2,6 +2,7 @@
 /node_modules
 /.pnp
 .pnp.js
+python/model_cache/
 
 # Testing
 /coverage
@@ -53,3 +54,5 @@ Desktop.ini
 # Next.js-specific (if applicable)
 .next
 .vercel
+
+**/model_cache/
