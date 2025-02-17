@@ -9,29 +9,45 @@ Backend powered by Zoo.dev APIs for CAD operations.
 WebSocket support for interactive 3D rendering.
 
 Project Structure
-project-root/
-├── backend/                  # Backend server and API integration
-│   ├── index.js              # Main backend entry point
-│   ├── output/               # Folder for storing generated CAD files
-│   ├── python/               # Python scripts for CAD generation
-│   │   └── text_to_cad.py
-│   └── package.json          # Backend dependencies
-├── frontend/                 # React frontend application
-│   ├── public/               # Static assets
-│   ├── src/                  # React components and logic
-│   │   ├── components/       # Individual UI components
-│   │   │   └── ...
-│   │   └── App.js            # Main React app logic
-│   ├── package.json          # Frontend dependencies
-│   └── tailwind.config.js    # Tailwind CSS configuration
-├── python
-│   ├── model_cache/          # where ai chat models are stored
-│   ├── venv/                 # virtual environment
-│   ├── aichat.py             # ai hugging face model
-│   ├── requirements.txt      # dependencies
-│   └── text_to_cad.py        # Cad generation
-├── .gitignore                # Ignored files for the whole repo
-└── README.md                 # Project documentation
+Directory structure:
+└── jpizzzel-ai-cad-project/
+    ├── README.md
+    ├── requirements.txt
+    ├── backend/
+    │   ├── index.js
+    │   ├── package-lock.json
+    │   ├── package.json
+    │   └── .gitignore
+    ├── frontend/
+    │   ├── package-lock.json
+    │   ├── package.json
+    │   ├── tailwind.config.js
+    │   ├── .gitignore
+    │   ├── public/
+    │   │   ├── index.html
+    │   │   ├── manifest.json
+    │   │   └── robots.txt
+    │   └── src/
+    │       ├── App.css
+    │       ├── App.js
+    │       ├── App.test.js
+    │       ├── index.css
+    │       ├── index.js
+    │       ├── reportWebVitals.js
+    │       ├── setupTests.js
+    │       └── components/
+    │           ├── AIAssistant.js
+    │           ├── AIButton.js
+    │           ├── AIchat.js
+    │           ├── FileSelector.js
+    │           ├── GLTFViewer.js
+    │           ├── Loader.js
+    │           ├── Pattern.js
+    │           ├── directory.js
+    │           └── navBar.js
+    └── python/
+        ├── aichat.py
+        └── text_to_cad.py
 
 Tech Stack
 
@@ -86,7 +102,7 @@ Copy code
 npm start
 4. Access the Application
 Frontend: http://localhost:3000
-Backend: http://localhost:5000
+Backend: http://localhost:3001
 
 How to Use
 Enter a project idea (e.g., "Create a cube with 5 cm sides") into the text field on the frontend.
@@ -97,4 +113,4 @@ View the model directly in the 3D viewer.
 Future Enhancements
 Add support for editing CAD models in real-time.
 Enable model sharing and collaboration.
-Optimize WebSocket performance for smoother rendering.
+Optimize performance for smoother rendering.
