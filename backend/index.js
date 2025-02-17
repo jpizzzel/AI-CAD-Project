@@ -16,8 +16,6 @@ app.use(bodyParser.json());
 // Serve output folder for downloads
 app.use("/output", express.static(path.join(__dirname, "output")));
 
-const venvPython = path.join(__dirname, '../python/venv/Scripts/python.exe');
-
 // REST Endpoint: Generate CAD
 app.post("/generate-cad", (req, res) => {
     const { prompt } = req.body;
@@ -25,27 +23,22 @@ app.post("/generate-cad", (req, res) => {
       return res.status(400).json({ status: "error", message: "Prompt is required" });
     }
   
-    const cadScript = path.join(__dirname, '../python/text_to_cad.py');
+    exec(`python ../python/text_to_cad.py "${prompt}"`, (error, stdout, stderr) => {
+      if (error) {
+        console.error("Error executing Python script:", stderr);
+        return res.status(500).json({ status: "error", message: stderr.trim() });
+      }
   
-    const pythonProcess = spawn(venvPython, [cadScript, prompt]);
-  
-    let result = "";
-    pythonProcess.stdout.on("data", (data) => {
-      result += data.toString();
-    });
-  
-    pythonProcess.stderr.on("data", (data) => {
-      console.error("Error executing text_to_cad.py:", data.toString());
-    });
-  
-    pythonProcess.on("close", (code) => {
       try {
-        const jsonResponse = JSON.parse(result);
+        // Log raw output from the Python script
+        console.log("Raw output from Python script:", stdout);
   
-        if (jsonResponse.status === "completed") {
+        const result = JSON.parse(stdout);
+  
+        if (result.status === "completed") {
           // Dynamically construct file paths
           const files = Object.fromEntries(
-            Object.entries(jsonResponse.files).map(([name, filePath]) => [
+            Object.entries(result.files).map(([name, filePath]) => [
               name,
               `/output/${path.basename(filePath.replace(/\\/g, "/"))}`,
             ])
@@ -66,10 +59,10 @@ app.post("/generate-cad", (req, res) => {
             modelUrl, // Use the dynamically found model URL
           });
         } else {
-          res.json({ status: jsonResponse.status, message: jsonResponse.message });
+          res.json({ status: result.status, message: result.message });
         }
-      } catch (err) {
-        console.error("JSON parse error:", result);
+      } catch (parseError) {
+        console.error("JSON parse error:", stdout);
         res.status(500).json({ status: "error", message: "Invalid response from Python script" });
       }
     });

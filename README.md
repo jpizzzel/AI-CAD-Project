@@ -24,7 +24,12 @@ project-root/
 │   │   └── App.js            # Main React app logic
 │   ├── package.json          # Frontend dependencies
 │   └── tailwind.config.js    # Tailwind CSS configuration
-├── shared/                   # (Optional) Shared utilities or assets
+├── python
+│   ├── model_cache/          # where ai chat models are stored
+│   ├── venv/                 # virtual environment
+│   ├── aichat.py             # ai hugging face model
+│   ├── requirements.txt      # dependencies
+│   └── text_to_cad.py        # Cad generation
 ├── .gitignore                # Ignored files for the whole repo
 └── README.md                 # Project documentation
 

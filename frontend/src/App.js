@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import GLTFViewer from "./components/GLTFViewer";
 import AIButton from "./components/AIButton";
@@ -11,6 +11,7 @@ import FileSelector from './components/FileSelector';
 function App() {
   const [prompt, setPrompt] = useState("");
   const [status, setStatus] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [files, setFiles] = useState([]);
   const [projectStructure, setProjectStructure] = useState([]);
   const [modelUrl, setModelUrl] = useState("");
@@ -106,7 +107,7 @@ function App() {
                 type="text"
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
-                placeholder="E.g., Create a simple cube"
+                placeholder="E.g., Create a 40 tooth bevel gear"
                 className="bg-[#222630] px-4 py-3 outline-none w-full text-white rounded-lg border-2 transition-colors duration-100 border-solid focus:border-[#596A95] border-[#2B3040]"
               />
             </div>
