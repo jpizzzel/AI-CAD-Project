@@ -87,7 +87,9 @@ Start the backend server:
 bash
 Copy code
 node index.js
-3. Frontend Setup
+Then set proper Zoo.dev and Hugging Face API keys in .env
+
+4. Frontend Setup
 Navigate to the frontend folder:
 bash
 Copy code
@@ -100,7 +102,7 @@ Start the frontend server:
 bash
 Copy code
 npm start
-4. Access the Application
+5. Access the Application
 Frontend: http://localhost:3000
 Backend: http://localhost:3001
 
