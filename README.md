@@ -20,7 +20,8 @@ Express.js: REST API framework.
 Python: CAD generation using Zoo.dev APIs.
 
 API Integration
-Zoo.dev APIs: Text-to-CAD generation and WebSocket rendering.
+Zoo.dev APIs: Text-to-CAD generation
+Hugging Face: AI Chat bot 
 
 Setup Instructions
 1. Clone the Repository
