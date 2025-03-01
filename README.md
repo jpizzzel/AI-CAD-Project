@@ -6,48 +6,6 @@ Generate CAD models from descriptive text prompts (e.g., "Design a gear with 40 
 Download generated .step and .gltf files.
 Real-time rendering of 3D models in the browser using Three.js.
 Backend powered by Zoo.dev APIs for CAD operations.
-WebSocket support for interactive 3D rendering.
-
-Project Structure
-Directory structure:
-└── jpizzzel-ai-cad-project/
-    ├── README.md
-    ├── requirements.txt
-    ├── backend/
-    │   ├── index.js
-    │   ├── package-lock.json
-    │   ├── package.json
-    │   └── .gitignore
-    ├── frontend/
-    │   ├── package-lock.json
-    │   ├── package.json
-    │   ├── tailwind.config.js
-    │   ├── .gitignore
-    │   ├── public/
-    │   │   ├── index.html
-    │   │   ├── manifest.json
-    │   │   └── robots.txt
-    │   └── src/
-    │       ├── App.css
-    │       ├── App.js
-    │       ├── App.test.js
-    │       ├── index.css
-    │       ├── index.js
-    │       ├── reportWebVitals.js
-    │       ├── setupTests.js
-    │       └── components/
-    │           ├── AIAssistant.js
-    │           ├── AIButton.js
-    │           ├── AIchat.js
-    │           ├── FileSelector.js
-    │           ├── GLTFViewer.js
-    │           ├── Loader.js
-    │           ├── Pattern.js
-    │           ├── directory.js
-    │           └── navBar.js
-    └── python/
-        ├── aichat.py
-        └── text_to_cad.py
 
 Tech Stack
 
