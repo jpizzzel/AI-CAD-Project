@@ -19,8 +19,8 @@ Node.js: Backend server for handling requests.
 Express.js: REST API framework.
 Python: CAD generation using Zoo.dev APIs.
 
-API Integration
-Zoo.dev APIs: Text-to-CAD generation
+API Integration:
+Zoo.dev APIs: Text-to-CAD generation,
 Hugging Face: AI Chat bot 
 
 Setup Instructions
