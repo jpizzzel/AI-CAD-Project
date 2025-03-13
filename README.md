@@ -27,7 +27,7 @@ Setup Instructions
 1. Clone the Repository
 bash
 Copy code
-git clone https://github.com/your-repo-name.git](https://github.com/jpizzzel/AI-CAD-Project
+git clone https://github.com/jpizzzel/AI-CAD-Project
 cd project-root
 2. Backend Setup
 Navigate to the backend folder:
